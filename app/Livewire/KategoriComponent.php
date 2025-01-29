@@ -18,8 +18,52 @@ class KategoriComponent extends Component
             $data['kategori']=Kategori::where('nama','like','%'.$this->cari.'%')->paginate(10);
         }
         else{
-
+            $data['kategori']=Kategori::paginate(10);
         }
-        return view('livewire.kategori-component');
+        $layout['title'] = 'Kelola Kategori Buku';
+        return view('livewire.kategori-component', $data)->layoutData($layout);
+    }
+    public function store(){
+        $this->validate([
+            'nama'=>'required',
+            'deskripsi'=>'required'
+        ],[
+            'nama.required'=>'Nama Kategori tidak boleh kosong!',
+            'deskripsi.required'=>'Deskripsi Kategori tidak boleh kosong!'
+        ]);
+        Kategori::create([
+            'nama'=>$this->nama,
+            'deskripsi'=>$this->deskripsi
+        ]);
+        $this->reset();
+        session()->flash('success', 'Berhasil Simpan!');
+        return redirect()->route('kategori');
+    }
+    public function edit($id){
+        $kategori=Kategori::find($id);
+        $this->id=$kategori->id;
+        $this->nama=$kategori->nama;
+        $this->deskripsi=$kategori->deskripsi;
+    }
+    public function update(){
+        $kategori=Kategori::find($this->id);
+        $kategori->update([
+            'nama'=>$this->nama,
+            'deskripsi'=>$this->deskripsi
+        ]);
+        $this->reset();
+        session()->flash('success', 'Berhasil Update!');
+        return redirect()->route('kategori');
+    }
+    public function confirm($id)
+    {
+        $this->id=$id;
+    }
+    public function destroy(){
+        $kategori=Kategori::find($this->id);
+        $kategori->delete();
+        $this->reset();
+        session()->flash('success', 'Berhasil Hapus!');
+        return redirect()->route('kategori');
     }
 }

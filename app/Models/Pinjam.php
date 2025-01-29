@@ -11,7 +11,7 @@ class Pinjam extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table='pinjam';
+    protected $table='pinjams';
     protected $primaryKey='id';
     protected $fillable = ['id', 'buku_id', 'user_id', 'tanggal_pinjam', 'tanggal_kembali','status'];
 

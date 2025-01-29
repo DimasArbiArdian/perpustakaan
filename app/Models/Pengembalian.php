@@ -11,7 +11,7 @@ class Pengembalian extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table='pengembalian';
+    protected $table='pengembalians';
     protected $primaryKey='id';
     protected $fillable = ['id', 'pinjam_id', 'tanggal_pengembalian', 'denda'];
 
